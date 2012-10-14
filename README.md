@@ -19,6 +19,6 @@ Proyecto HTML5 + Javascript + SQLite para calcular las propiedades termodinamica
 * Algunos navegadores de Android 2.x
 
 ## Desarrollador
-* Angel Martínez ([@angelmart_](http://twitter.com/angelmartz_))
+* Angel Martínez ([@angelmartz_](http://twitter.com/angelmartz_))
 
 Facultad de Ingeniería UNAM
