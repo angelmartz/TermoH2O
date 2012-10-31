@@ -3,6 +3,8 @@
 <head>
 <title>Propiedades del Agua H20</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta charset="utf-8">
 <link rel="stylesheet" href="iui/iui.css" type="text/css" />
 
@@ -18,7 +20,7 @@
     </div>
     <div id="instalacion" title="Instalación H20" selected="true" class="panel">
         <div class="row blanco">
-            <p>Para poder utilizar correctamente esta aplicación por favor Instalala</p>
+            <p>Hola Para poder utilizar correctamente esta aplicación por favor Instalala</p>
             <section class="work" style="display:none;">
                 <div class="ui-progress-bar ui-container" id="progress_bar">
                     <div class="ui-progress" style="width: 7%;">
@@ -38,23 +40,16 @@
     </div>
     <div id="menu" title="Menú">
 	<div style="">
-            <ul>
-                <li>
-                    <a href="#temperatura">Tabla de liquido comprimido Temperaturas</a>
-                </li>
-                <li>
-                    <a href="#presion">Tabla de liquido comprimido Presiones</a>
-                </li>
-            </ul>
-            
-            
+            <a href="#temperatura" class="whiteButton">Tabla de liquido comprimido (Temperaturas)</a>
+            <a href="#presion" class="whiteButton">Tabla de liquido comprimido (Presiones)</a>         
             
         </div>
     </div>
     <div id="temperatura" title="Temperatura">
 	<div id="calculos" style="">
-                    Temperatura [°C]: <input type="text" pattern="[0-9]*" id="val_temperatura"/><br/>
+                    Temperatura [°C]: <input type="text"  id="val_temperatura"/><br/>
                     <button id="cal_temperatura" class="whiteButton">Calcular</button>
+                    <div class="interpolado"></div>
                     <div class="resultados">
                         <table id="res_temperatura" width="100%" cols="6">
                             <tbody>
@@ -116,8 +111,9 @@
     </div>
     <div id="presion" title="Presión">
 	<div id="calculos" style="">
-                    Presión (bar): <input type="text" pattern="[0-9]*" id="val_presion"/><br/>
+                    Presión (bar): <input type="text" id="val_presion"/><br/>
                     <button id="cal_presion" class="whiteButton">Calcular</button>
+                    <div class="interpolado"></div>
                     <div class="resultados">
                         <table id="res_presion" width="100%" cols="6">
                             <tbody>
@@ -186,6 +182,23 @@
             App.init();  
           });
         //]]>
-      </script>    
+        // Actualizar APP si hay una version nueva.
+        window.addEventListener('load', function(e) {
+         console.log("hola");
+          window.applicationCache.addEventListener('updateready', function(e) {
+            if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+              // Actualizando Cache
+              window.applicationCache.swapCache();
+              if (confirm('Esta disponible una nueva version. ¿Deses cargala?')) {
+                window.location.reload();
+              }
+            } else {
+              // Nada nuevo
+            }
+          }, false);
+        
+        }, false);
+      </script>
+    
 </body>
 </html>

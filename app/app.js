@@ -183,10 +183,13 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 	}
     },
     consultaPresion: function() {
+	var inferiorDatos = new Object();
+	var superiorDatos = new Object();
+
 	valor = $('#val_presion').val()
 	var query = "SELECT * FROM presion_completa WHERE presion = ?";
 	App.db.transaction(function(tx) {
-          tx.executeSql(query, [valor], function(tx, result) {
+	    tx.executeSql(query, [valor], function(tx, result) {
 	    datos = result.rows;
 	    resultados = datos.length;
 	    console.log("Resultados "+resultados);
@@ -196,42 +199,135 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 		$('.resultados').fadeIn();
 		item = null;
 		item = datos.item(0);
+		$('.interpolado').html("Resultado Directo");
 		$.each( item, function( key, value ){
 		  $('#res_presion [data-id="'+key+'"]').html(value);
 		});
 	    }
 	    else
 	    {
-	      $('#resultado').html("Requiere interpolacion");
+		    $('.interpolado').html("Resultado Interpolado");
+		    console.log("Interpolacion");
+		    var inferior = "SELECT * FROM presion_completa WHERE presion < ? ORDER BY id DESC LIMIT 1";
+		    var superior = "SELECT * FROM presion_completa WHERE presion > ? ORDER BY id ASC LIMIT 1";
+		    App.db.transaction(function(tx) {
+			tx.executeSql(inferior, [valor], function(tx, result) {
+			  datos = result.rows;
+			  resultados = datos.length;
+			  console.log("Inferior "+resultados);
+			  if(resultados > 0)
+			  {
+			      item = null;
+			      item = datos.item(0);
+			      $.each( item, function( key, value ){
+				inferiorDatos[key] = value;
+				
+	
+			      });
+			  }
+			});
+			tx.executeSql(superior, [valor], function(tx, result) {
+			    datos = result.rows;
+			    resultados = datos.length;
+			    console.log("Superior "+resultados);
+			    if(resultados > 0)
+			    {
+				item = null;
+				item = datos.item(0);
+				$.each( item, function( key, value ){
+				    superiorDatos[key] = value;
+				});
+			    }
+			    
+			    $.each( superiorDatos, function( key, value ){
+				interp = inferiorDatos[key] - ((inferiorDatos[key]-superiorDatos[key])/(inferiorDatos['presion']-superiorDatos['presion'])*(inferiorDatos['presion']-valor));
+				$('#res_presion [data-id="'+key+'"]').html(interp);
+			    });
+	
+	
+			});
+		    
+		    });
 	    }
 
           });
         });
     },
     consultaTemperatura: function() {
+	var inferiorDatos = new Object();
+	var superiorDatos = new Object();
 	valor = $('#val_temperatura').val()
-	var query = "SELECT * FROM temp_completa WHERE temperatura = ?";
+	var query = "SELECT * FROM temp_completa WHERE temperatura = ? ";
 	App.db.transaction(function(tx) {
-          tx.executeSql(query, [valor], function(tx, result) {
-	    datos = result.rows;
-	    resultados = datos.length;
-	    console.log("Resultados "+resultados);
-	    
-	    if(resultados > 0)
-	    {
-		item = null;
-		item = datos.item(0);
-		$.each( item, function( key, value ){
-		  $('#res_temperatura [data-id="'+key+'"]').html(value);
-		});
-	    }
-	    else
-	    {
-	      $('#resultado').html("Requiere interpolacion");
-	    }
-
-          });
+	    tx.executeSql(query, [valor], function(tx, result) {
+		datos = result.rows;
+		resultados = datos.length;
+		console.log("Resultados "+resultados);
+		
+		if(resultados > 0)
+		{
+		    item = null;
+		    item = datos.item(0);
+		    $('.interpolado').html("Resultado Directo");
+		    $.each( item, function( key, value ){
+		      $('#res_temperatura [data-id="'+key+'"]').html(value);
+		    });
+		}
+		else
+		{
+		    $('.interpolado').html("Resultado Interpolado");
+		    console.log("Interpolacion");
+		    var inferior = "SELECT * FROM temp_completa WHERE temperatura < ? ORDER BY id DESC LIMIT 1";
+		    var superior = "SELECT * FROM temp_completa WHERE temperatura > ? ORDER BY id ASC LIMIT 1";
+		    App.db.transaction(function(tx) {
+			tx.executeSql(inferior, [valor], function(tx, result) {
+			  datos = result.rows;
+			  resultados = datos.length;
+			  console.log("Inferior "+resultados);
+			  if(resultados > 0)
+			  {
+			      item = null;
+			      item = datos.item(0);
+			      $.each( item, function( key, value ){
+				inferiorDatos[key] = value;
+				
+	
+			      });
+			  }
+			});
+			tx.executeSql(superior, [valor], function(tx, result) {
+			    datos = result.rows;
+			    resultados = datos.length;
+			    console.log("Superior "+resultados);
+			    if(resultados > 0)
+			    {
+				item = null;
+				item = datos.item(0);
+				$.each( item, function( key, value ){
+				    superiorDatos[key] = value;
+				});
+			    }
+			    
+			    $.each( superiorDatos, function( key, value ){
+				interp = inferiorDatos[key] - ((inferiorDatos[key]-superiorDatos[key])/(inferiorDatos['temperatura']-superiorDatos['temperatura'])*(inferiorDatos['temperatura']-valor));
+				$('#res_temperatura [data-id="'+key+'"]').html(interp);
+			    });
+	
+	
+			});
+		    
+		    });
+     
+     
+     
+		  
+		}
+	    });
         });
+    },
+    interpolar: function(section) {
+      //console.log(section);
+      console.log(section['presion']);
     },
     fadeIn: function(section) {
       return $("section." + section).fadeIn('slow');
