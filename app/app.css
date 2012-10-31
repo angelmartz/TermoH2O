@@ -2,8 +2,16 @@
   background-color:#FFF;
   padding: 10px;
 }
-#resultado{
+.resultados{
   padding: 26px;
+}
+.resultados td{
+  text-align:center;
+  padding: 10px;
+}
+.resultados th{
+  background:#ccc;
+  padding: 5px;
 }
 /*
 Copyright (c) 2010-2012 Ivan Vanderbyl
@@ -162,4 +170,9 @@ THE SOFTWARE.
 }
 .ui-progress-bar .ui-progress span.ui-label b {
   font-weight: bold;
+}
+
+#calculos
+{
+  padding:15px;
 }

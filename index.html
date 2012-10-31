@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 <title>Propiedades del Agua H20</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<meta charset="utf-8">
 <link rel="stylesheet" href="iui/iui.css" type="text/css" />
 
 <link rel="stylesheet" title="Default" href="iui/t/default/default-theme.css"  type="text/css"/>
@@ -16,9 +16,9 @@
 		<h1 id="pageTitle"></h1>
 		<a id="backButton" class="button" href="#"></a>
     </div>
-    <div id="instalacion" title="Instalaci�n H20" selected="true" class="panel">
+    <div id="instalacion" title="Instalación H20" selected="true" class="panel">
         <div class="row blanco">
-            <p>Para poder utilizar correctamente esta aplicaci�n por favor Instalala</p>
+            <p>Para poder utilizar correctamente esta aplicación por favor Instalala</p>
             <section class="work" style="display:none;">
                 <div class="ui-progress-bar ui-container" id="progress_bar">
                     <div class="ui-progress" style="width: 7%;">
@@ -32,16 +32,148 @@
             <br>
                 
             <button id="instalar" class="whiteButton">Instalar</button>
-            <a href="#temperatura">Continuar</a>
+            <a href="#menu">Continuar</a>
         </div>
         
     </div>
+    <div id="menu" title="Menú">
+	<div style="">
+            <ul>
+                <li>
+                    <a href="#temperatura">Tabla de liquido comprimido Temperaturas</a>
+                </li>
+                <li>
+                    <a href="#presion">Tabla de liquido comprimido Presiones</a>
+                </li>
+            </ul>
+            
+            
+            
+        </div>
+    </div>
     <div id="temperatura" title="Temperatura">
 	<div id="calculos" style="">
-             <input type="number" name="quantity" min="1" max="5" /><br />
-                    Presi�n (bar): <input type="text" pattern="[0-9]*" min="0" max="10.5" id="num"/><br/>
-                    <div id="resultado">2</div>
-                    <button id="ves" class="whiteButton">Calcular</button>
+                    Temperatura [°C]: <input type="text" pattern="[0-9]*" id="val_temperatura"/><br/>
+                    <button id="cal_temperatura" class="whiteButton">Calcular</button>
+                    <div class="resultados">
+                        <table id="res_temperatura" width="100%" cols="6">
+                            <tbody>
+                                <tr>
+                                    <th colspan="3" width="50%">Temperatura [°C]</th>
+                                    <th colspan="3">Presión [bar]</th>
+                                </tr>
+                                <tr>
+                                    <td data-id="temperatura" colspan="3"></th>
+                                    <td data-id="presion" colspan="3"></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">f</th>
+                                    <th colspan="2">fg</th>
+                                    <th colspan="2">g</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="6">Volumen especifico (v) [m<sup>3</sup>/kg]</th>
+                                </tr>
+                                <tr>
+                                    <td data-id="vf" colspan="2"></td>
+                                    <td data-id="vfg" colspan="2"></td>
+                                    <td data-id="vg" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="6">Energía Interna (u) [kJ/kg]</th>
+                                </tr>
+                                <tr>
+                                    <td data-id="uf" colspan="2"></td>
+                                    <td data-id="ufg" colspan="2"></td>
+                                    <td data-id="ug" colspan="2"></td>
+                                </tr>
+                                
+                                <tr>
+                                    <th colspan="6">Entalpía (h) [kJ/kg]</th>
+                                </tr>
+                                <tr>
+                                    <td data-id="hf" colspan="2"></td>
+                                    <td data-id="hfg" colspan="2"></td>
+                                    <td data-id="hg" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="6">Entropia (s) [kJ/kg]</th>
+                                </tr>
+                                <tr>
+                                    <td data-id="sf" colspan="2"></td>
+                                    <td data-id="sfg" colspan="2"></td>
+                                    <td data-id="sg" colspan="2"></td>
+                                </tr>
+
+                                
+                            </tbody>
+                        </table>
+                            
+                    </div>
+                    
+                    
+        </div>
+    </div>
+    <div id="presion" title="Presión">
+	<div id="calculos" style="">
+                    Presión (bar): <input type="text" pattern="[0-9]*" id="val_presion"/><br/>
+                    <button id="cal_presion" class="whiteButton">Calcular</button>
+                    <div class="resultados">
+                        <table id="res_presion" width="100%" cols="6">
+                            <tbody>
+                                <tr>
+                                    <th colspan="3" width="50%">Temperatura [°C]</th>
+                                    <th colspan="3">Presión [bar]</th>
+                                </tr>
+                                <tr>
+                                    <td data-id="temperatura" colspan="3"></th>
+                                    <td data-id="presion" colspan="3"></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">f</th>
+                                    <th colspan="2">fg</th>
+                                    <th colspan="2">g</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="6">Volumen especifico (v) [m<sup>3</sup>/kg]</th>
+                                </tr>
+                                <tr>
+                                    <td data-id="vf" colspan="2"></td>
+                                    <td data-id="vfg" colspan="2"></td>
+                                    <td data-id="vg" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="6">Energía Interna (u) [kJ/kg]</th>
+                                </tr>
+                                <tr>
+                                    <td data-id="uf" colspan="2"></td>
+                                    <td data-id="ufg" colspan="2"></td>
+                                    <td data-id="ug" colspan="2"></td>
+                                </tr>
+                                
+                                <tr>
+                                    <th colspan="6">Entalpía (h) [kJ/kg]</th>
+                                </tr>
+                                <tr>
+                                    <td data-id="hf" colspan="2"></td>
+                                    <td data-id="hfg" colspan="2"></td>
+                                    <td data-id="hg" colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="6">Entropia (s) [kJ/kg]</th>
+                                </tr>
+                                <tr>
+                                    <td data-id="sf" colspan="2"></td>
+                                    <td data-id="sfg" colspan="2"></td>
+                                    <td data-id="sg" colspan="2"></td>
+                                </tr>
+
+                                
+                            </tbody>
+                        </table>
+                            
+                    </div>
+                    
                     
         </div>
     </div>

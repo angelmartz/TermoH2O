@@ -49,7 +49,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
   };
 })( jQuery );
 
-
+// Iniciamos el APP
 (function() {
 
   window.App = {
@@ -97,8 +97,10 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         }), 1000);
       });*/
       var value = "hola";
-      $('#instalar').on("click", this.instalar)
-      $('#ves').on("click", this.consulta)
+      $('#instalar').on("click", this.instalar);
+     // $('.resultados').hide();
+      $('#cal_presion').on("click", this.consultaPresion);
+      $('#cal_temperatura').on("click", this.consultaTemperatura);
     },
     instalar: function(){
 	console.log("Instalando datos..")
@@ -146,7 +148,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 	      $(".work").fadeOut();
 	      $("#instalar").fadeOut();
 	      $("#calculos").fadeIn();
-		url = "#_temperatura";  
+		url = "#_menu";  
 		$(location).attr('href',url);  
 	    }, 1000);
         }else{
@@ -180,9 +182,35 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 	    console.log("Done importing!");
 	}
     },
-    consulta: function() {
-	valor = $('#num').val()
+    consultaPresion: function() {
+	valor = $('#val_presion').val()
 	var query = "SELECT * FROM presion_completa WHERE presion = ?";
+	App.db.transaction(function(tx) {
+          tx.executeSql(query, [valor], function(tx, result) {
+	    datos = result.rows;
+	    resultados = datos.length;
+	    console.log("Resultados "+resultados);
+	    
+	    if(resultados > 0)
+	    {
+		$('.resultados').fadeIn();
+		item = null;
+		item = datos.item(0);
+		$.each( item, function( key, value ){
+		  $('#res_presion [data-id="'+key+'"]').html(value);
+		});
+	    }
+	    else
+	    {
+	      $('#resultado').html("Requiere interpolacion");
+	    }
+
+          });
+        });
+    },
+    consultaTemperatura: function() {
+	valor = $('#val_temperatura').val()
+	var query = "SELECT * FROM temp_completa WHERE temperatura = ?";
 	App.db.transaction(function(tx) {
           tx.executeSql(query, [valor], function(tx, result) {
 	    datos = result.rows;
@@ -193,21 +221,26 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 	    {
 		item = null;
 		item = datos.item(0);
-		
-		$('#resultado').css("display", "none");
-		$('#resultado').html("<table><tr><td>Temperatura</td><td>Presion</td><td>vf</td></tr><tr><td>"+item['temperatura']+"</td><td>"+item['presion']+"</td><td>"+item['vf']+"</td><td>").fadeIn(1500);
-		console.log(item['temperatura']);
+		$.each( item, function( key, value ){
+		  $('#res_temperatura [data-id="'+key+'"]').html(value);
+		});
+	    }
+	    else
+	    {
+	      $('#resultado').html("Requiere interpolacion");
 	    }
 
           });
         });
-	//alert($('#num').val());
     },
     fadeIn: function(section) {
       return $("section." + section).fadeIn('slow');
     },
     fadeInNextSection: function() {
-      if (this.sections.length > 0) return this.fadeIn(this.sections.shift());
+      if (this.sections.length > 0)
+      {
+	return this.fadeIn(this.sections.shift());
+      }
     }
   };
 
